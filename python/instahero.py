@@ -10,17 +10,17 @@ class Tracker(object):
     Usage:
 
     import instahero
-    tracker = instahero.Track("your api key")
+    tracker = instahero.Tracker("your api key")
     tracker.track("event_name", {"property": "dict"})
     """
     def __init__(self, api_key):
         self._api_key = api_key
 
-    def track(self, event, data):
+    def track(self, event_name, data):
         if "_t" not in data:
             data["_t"] = str(int(time.time()))
 
         data["_k"] = self._api_key
-        data["_n"] = event
+        data["_n"] = event_name
 
         urllib2.urlopen("http://track.instahero.com/api/track/?%s" % urllib.urlencode(data), timeout=2)
