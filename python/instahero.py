@@ -23,4 +23,11 @@ class Tracker(object):
         data["_k"] = self._api_key
         data["_n"] = event_name
 
-        urllib2.urlopen("http://track.instahero.com/api/track/?%s" % urllib.urlencode(data), timeout=2)
+        urllib2.urlopen("http://track.instahero.com/api/track/?%s" % urllib.urlencode(data), timeout=10)
+
+    def track_multiple(self, events):
+        import json
+        encoded_events = urllib.urlencode({"data": json.dumps(events)})
+        request = urllib2.Request("http://track.instahero.com/api/track_multiple/?_k=%s" % self._api_key, encoded_events)
+        response = urllib2.urlopen(request, timeout=10)
+        response.read()
